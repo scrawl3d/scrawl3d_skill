@@ -1,7 +1,9 @@
 # scrawl3d skill for Claude
 
+**🌐 [www.scrawl3d.com](https://www.scrawl3d.com)**: CAD for 3D printing in your browser. Design and fix parts, or let Claude build them. [Try it free](https://www.scrawl3d.com) · [Manual](https://www.scrawl3d.com/help)
+
 A skill that teaches Claude how to design and build 3D-printable parts in
-[scrawl3d](https://scrawl3d.com) through its MCP tools: the build workflow,
+[scrawl3d](https://www.scrawl3d.com) through its MCP tools: the build workflow,
 coordinate conventions, which tool fits which shape, printability (DfAM),
 materials and export.
 
@@ -10,7 +12,7 @@ materials and export.
 Create an API key in scrawl3d (Account › API keys), then:
 
 ```sh
-claude mcp add --transport http scrawl3d https://scrawl3d.com/api/mcp --header "Authorization: Bearer s3d_…"
+claude mcp add --transport http scrawl3d https://www.scrawl3d.com/api/mcp --header "Authorization: Bearer s3d_…"
 ```
 
 claude.ai / Claude Desktop: Settings › Connectors › Add custom connector, URL
