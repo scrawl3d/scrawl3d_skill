@@ -31,8 +31,9 @@ Claude Code, as a plugin:
 
 Or copy `skills/scrawl3d` into `~/.claude/skills/`.
 
-claude.ai: zip the `skills/scrawl3d` folder and upload it under
-Settings › Capabilities › Skills.
+claude.ai / Claude Desktop: download
+**[scrawl3d-skill.zip](https://github.com/scrawl3d/scrawl3d_skill/raw/main/dist/scrawl3d-skill.zip)**
+and upload it under Settings › Capabilities › Skills (don't unzip it).
 
 ## What's in it
 
@@ -41,6 +42,11 @@ Settings › Capabilities › Skills.
   gears, splitting parts that are too big for the bed.
 - `references/printing.md`: orientation, overhangs, wall thickness, fits,
   materials.
+
+## Updating the zip
+
+After changing anything in `skills/scrawl3d`, run `python build-zip.py` and commit
+`dist/scrawl3d-skill.zip` with the change.
 
 ## License
 
