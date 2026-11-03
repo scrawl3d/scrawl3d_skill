@@ -23,7 +23,7 @@ Keep scrawl3d open in a browser tab: Claude works in that tab, live.
 Claude Code, as a plugin:
 
 ```sh
-/plugin marketplace add porokka/scrawl3d-skill
+/plugin marketplace add scrawl3d/scrawl3d_skill
 /plugin install scrawl3d@scrawl3d
 ```
 
