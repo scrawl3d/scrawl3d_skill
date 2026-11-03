@@ -1,0 +1,11 @@
+{
+  "name": "scrawl3d",
+  "owner": { "name": "Poro-IT OÜ" },
+  "plugins": [
+    {
+      "name": "scrawl3d",
+      "source": "./",
+      "description": "Design and build 3D-printable parts in scrawl3d through its MCP tools."
+    }
+  ]
+}
