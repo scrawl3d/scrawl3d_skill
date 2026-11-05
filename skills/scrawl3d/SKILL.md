@@ -1,6 +1,6 @@
 ---
 name: scrawl3d
-description: Design and build 3D-printable parts and models in scrawl3d (or local Jarvis CAD) through its MCP tools. Use when asked to model, fix or change a part, build an assembly (enclosure, bracket, gearbox, scale model, car), make something printable, or export it for a slicer. Covers the build workflow, coordinate conventions, which tool fits which shape, printability (DfAM), materials and export.
+description: Design and build 3D-printable parts and models in scrawl3d (or local Jarvis CAD) through its MCP tools. Use when asked to model, fix or change a part, rework an imported STL, build an assembly (enclosure, bracket, gearbox, scale model, car), make something printable, or export it for a slicer. Covers the build workflow, editing existing parts, measuring, coordinate conventions, which tool fits which shape, printability (DfAM), materials and export.
 ---
 
 # Building in scrawl3d
@@ -81,8 +81,58 @@ in each result). Not for `screenshot` or `export_stl`.
 | Screw holes, inserts, nut traps, threads, bearing seats | `add_feature` |
 | Enclosure lid | `make_lid` on the open container |
 | Too big for the bed | `cut` across an axis, then join the halves (see printing reference) |
+| Pipes, cables, gaskets, springs | `sweep` a profile along a 3D path |
+| Sizes that follow each other (wall = 2) | `values`, then `{"expr":"wall * 2"}` in place of a number |
+| Longer or shorter, ends unchanged | `stretch` (`scale` also resizes the holes) |
+| Change a hole already in a part | `edit_hole` (imported meshes too) |
+| Will it hold? | `simulate` |
 
 Details and worked examples: [references/recipes.md](references/recipes.md).
+
+## Editing an existing part
+
+Imported STLs and finished parts have no parameters to change, so measure first
+and make every edit something you can take back.
+
+1. **Find out where the user means.** `marks` gives the points they numbered,
+   with the face direction at each; `last_click` gives "this" and "here". Read
+   them again before placing anything, because the user can move a mark between
+   messages and keep its number.
+2. **Measure, don't guess.** `slice` gives a flat cut on any plane: outlines,
+   holes, sizes, and fitted circles and rectangles. Use it to map a shape.
+   `probe` gives single wall thicknesses and surface positions. Don't trust a
+   document's labels or dimensions over the mesh, or over the user.
+3. **Cut with negatives** (`set_negative`) so a pocket stays movable. A negative
+   cuts every part it overlaps, and it also cuts solids you merge in later.
+4. **Fill with `boolean` union.** Let a fill overlap into the neighbouring
+   material; where it runs into a pocket, the negative trims it back. Merged
+   solids stay as edits in the body's history, so `edit_op` with `delete` takes
+   one back out.
+5. **Make room with `stretch`.** It cuts at the plane and everything on the +
+   side moves, so holes and marks on that side change coordinates. Measure again
+   afterwards.
+6. **Check the result:** `probe` the walls you changed and the paths that must
+   stay clear, and `check_clashes` for anything that has to fit against another
+   part. Report what you measured, and say what you assumed.
+7. **Save before `open_project`.** It replaces the scene.
+
+Traps:
+
+- **Start a `probe` ray outside the body.** A ray that starts inside solid reports
+  the point where it leaves as its first hit, and `thickness` then measures the
+  empty space beyond. A hit whose normal faces back along the ray, a long way
+  from where you expected a surface, usually means this.
+- **`probe` gives only the first wall for each body.** No hits means nothing lies
+  on that line at all. To map a shape, send a grid of rays in `batch`, or use
+  `slice`.
+- **Place negatives with `move` anchor `origin`.** Until a part is negative, other
+  negatives clip the bounds that anchors `base` and `center` use, which can shift
+  it. A cylinder's origin is its base centre.
+- **A cylinder rotated [90, 0, 0] runs from its origin toward −Y.**
+- **Confirm a hole's depth with `probe`.** `edit_hole` can misread how long a bore
+  is on an imported mesh, and then resize only part of it.
+- **A cut can skim something else.** Lengthening a negative to clear a path may
+  shave a neighbouring face, so check what it now crosses.
 
 ## Making it printable
 
