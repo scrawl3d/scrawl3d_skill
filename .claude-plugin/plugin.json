@@ -1,7 +1,7 @@
 {
   "name": "scrawl3d",
   "description": "Design and build 3D-printable parts in scrawl3d through its MCP tools: workflow, coordinates, which tool for which shape, printability and export.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": { "name": "Poro-IT OÜ" },
   "homepage": "https://scrawl3d.com",
   "license": "MIT"

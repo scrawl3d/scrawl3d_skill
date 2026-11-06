@@ -86,6 +86,9 @@ in each result). Not for `screenshot` or `export_stl`.
 | Longer or shorter, ends unchanged | `stretch` (`scale` also resizes the holes) |
 | Change a hole already in a part | `edit_hole` (imported meshes too) |
 | Will it hold? | `simulate` |
+| Several saved projects in one model | `list_projects`, `project_contents`, then `insert_project` |
+| Bring in an STL file | `upload_link`, PUT the file, then `import_stl` (locally: `path`) |
+| Chosen parts as one STL | `export_stl` with `ids` |
 
 Details and worked examples: [references/recipes.md](references/recipes.md).
 
@@ -131,6 +134,11 @@ Traps:
 - **A cylinder rotated [90, 0, 0] runs from its origin toward −Y.**
 - **Confirm a hole's depth with `probe`.** `edit_hole` can misread how long a bore
   is on an imported mesh, and then resize only part of it.
+- **For a fit check, use `insert_project`, not live negatives.** A negative cuts every
+  part it overlaps, so it would trim the test beam sitting in its own pocket and hide
+  the clash. `insert_project` brings parts in as finished meshes with their own project's
+  cuts already made. Prefer it to exporting and re-importing an STL, which can lose
+  small features.
 - **A cut can skim something else.** Lengthening a negative to clear a path may
   shave a neighbouring face, so check what it now crosses.
 
